@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "name": "react-ph-talk",
+  "alias": ["react-spring-talk"],
+  "public": true,
+  "builds": [{ "src": "package.json", "use": "@now/static-build" }]
+}

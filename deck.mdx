@@ -1,0 +1,411 @@
+import { Head, Notes } from 'mdx-deck';
+import provider from './theme';
+
+import { Image } from '@mdx-deck/components';
+
+import syntaxHighlighter from '@mdx-deck/themes/syntax-highlighter-prism';
+
+export const themes = [syntaxHighlighter, provider];
+
+<Head>
+  <title>React Spring Animations Talk</title>
+</Head>
+
+# Animations in react using react-Spring
+
+---
+
+# Why Animate?
+
+<Notes>
+  - Animations are more important to UX than you might think - No animations are
+  better than poor animations - Take time to perfect animation will affect
+  buisness down the road
+</Notes>
+
+---
+
+# Animation is Art
+
+<Notes>- good animation adds flair to the application</Notes>
+
+---
+
+# CSS Animations
+
+- Linear Easing
+- Bezier Easing
+
+<Notes>- Time based animations are hard to control</Notes>
+
+---
+
+![An image of a crying cat](https://data.whicdn.com/images/320576131/large.jpg)
+
+---
+
+# What are springs ?
+![A springy image](https://i.imgur.com/7CCH51r.gif)
+
+---
+
+# Springs are physical
+
+<Notes>- Physical meaning it is based on how motion is with physics</Notes>
+
+---
+
+# Springs are responsive
+
+---
+
+```js
+import { useSpring } from 'react-spring';
+```
+
+<Notes>the new react-spring api is powered by hooks</Notes>
+
+---
+
+```js
+const values = useSpring(props);
+```
+
+---
+
+```js
+const values = useSpring({
+  to: { foo: '0px', bar: 0, baz: `translateX(0)` },
+});
+```
+
+---
+
+# Forward Props
+
+```js
+const values = useSpring({
+  foo: '0px',
+  bar: 0,
+  baz: `translateX(0)`,
+});
+```
+
+---
+
+# The `animated()` function
+
+```jsx
+import { animated } from 'react-spring';
+
+<animated.div style={props} />;
+```
+
+---
+
+## Shorthand
+
+```jsx
+import { a } from 'react-spring';
+
+<a.div style={props} />;
+```
+
+<Notes>
+  Any props not recognized by useSpring is forwarded to the `to` prop
+</Notes>
+
+---
+
+import Values from './examples/values';
+
+# Numbers
+
+<Values from={0} to={1} interpolate={x => x.toFixed(2)} />
+
+```js
+const props = useSpring({ number: 1 });
+
+<a.div>{props.number}</a.div>;
+```
+
+<Notes>- Spring animation can accept a variety of values</Notes>
+
+---
+
+# Strings (css values)
+
+<Values from={0} to={359} interpolate={x => `rotateZ(${x.toFixed(0)}deg)`} />
+
+```js
+const props = useSpring({ transform: `rotateZ( 359deg )` });
+
+<a.div style={props} />;
+```
+
+---
+
+# Strings (mutliple values)
+
+<Values
+  from={[0, 0]}
+  to={[50, 200]}
+  interpolate={(x, y) => `${x.toFixed(0)}px, ${y.toFixed(0)}px`}
+/>
+
+```js
+const props = useSpring({
+  transform: `translate(50px,200px)`,
+});
+
+<a.div style={props} />;
+```
+
+---
+
+# Strings (hex)
+
+<Values from="#111" to="#333" />
+
+```js
+const props = useSpring({
+  from: { color: '#111' },
+  to: { color: `#333` },
+});
+
+<a.div style={props} />;
+```
+
+---
+
+# Strings (named colors)
+
+<Values from="red" to="blue" />
+
+```js
+const props = useSpring({
+  from: { color: 'red' },
+  to: { color: 'blue' },
+});
+
+<a.div style={props} />;
+```
+
+---
+
+# Arrays
+
+<Values
+  from={[0, 1, 2, 3]}
+  to={[10, 20, 30, 40]}
+  interpolate={(w, x, y, z) => `[${[w, x, y, z].map(x => x.toFixed(0))}]`}
+/>
+
+```js
+const props = useSpring({
+  from: {foo: [0, 1, 2, 3]}
+  to: {foo: [10, 20, 30, 40]}
+ });
+
+<a.div style={props} />;
+```
+
+---
+
+import Bar from './examples/bar';
+
+```js
+useSpring({ foo: 200 });
+```
+
+<Bar />
+
+<Notes>
+  - In most animation libraries requires an explicit `from` values.
+  - In react-spring the `to` is used as a from value and no animation
+  begins on the first render.
+</Notes>
+
+---
+
+import Bar2 from './examples/bar2';
+
+```js
+const values = useSpring({
+  from: { foo: 0 },
+  to: { foo: 200 },
+});
+```
+
+<Bar2 />
+
+<Notes>
+  - Adding a `from` prop makes the component animate on render.
+</Notes>
+
+
+---
+
+import { Mass, Velocity, Tension, Friction, Configs } from './examples/config';
+
+```js
+const values = useSpring({
+  config: {
+    mass,
+    velocity,
+    tension,
+    friction,
+    ...
+  },
+});
+```
+
+---
+
+# Mass
+
+<Mass />
+
+<Notes>
+  More mass you give to an object, the more velocity it needs to speed up
+  and more time it needs to slow down
+</Notes>
+
+---
+
+# Tension
+
+<Tension />
+
+<Notes>
+  - Tension also the stiffness
+  - Higher tension makes friction less effective, (more bouncy)
+</Notes>
+
+---
+
+# Friction
+
+<Friction />
+
+<Notes>
+ - Also known as the damping ratio
+ - Higher friction means greater deceleration and less bouncing.
+</Notes>
+
+---
+
+# Velocity
+
+<Velocity />
+
+<Notes>
+  - The initial speed and direction
+  - for gesture based animations
+  - will end at the same time even if not the same
+</Notes>
+
+---
+
+# Clamp
+
+```
+  const values = useSpring({
+    config: { clamp: true }
+  })
+```
+
+<Notes>
+  Prevents your animation from overshooting 
+</Notes>
+
+---
+
+# Default Configs
+
+```js
+import { config } from 'react-spring';
+```
+
+<Configs />
+
+---
+
+# Custom interpolation
+
+```jsx
+const { foo } = useSpring({ from: {foo: 0}, foo: 200 });
+<a.div>{foo.interpolate(x => x + 'px')}</a.div>
+```
+
+<Notes>
+  - transforms animated value on every animation frame
+  - use this to do clamping or converstions, even simulate keyframes
+</Notes>
+
+---
+
+# imperative api
+
+```js
+const [props, update, stop] = useSpring(() => ({ opacity: 1 }));
+
+const onClick = () => {
+  update({ opacity: toggle ? 1 : 0 });
+};
+
+// stop the animation
+...
+stop();
+```
+
+---
+
+# Chained animations
+```js
+  useSpring({ 
+    to: async next => await next({x: 100}),
+  })
+```
+
+```js
+  useSpring({ 
+    to: [{x: 100}, {y: 100}],
+  })
+```
+
+---
+
+# A lot more advanced stuff
+
+```js
+import {
+  useSpring,
+  useSprings,
+  useTransition,
+  useTrail,
+  useChain,
+  ... } from 'react-spring';
+```
+
+---
+
+# [https://www.react-spring.io](https://www.react-spring.io)
+
+---
+
+# Gestures
+
+# [https://github.com/react-spring/react-use-gesture#readme](https://github.com/react-spring/react-use-gesture#readme)
+
+---
+
+# Thats it for now...
+
+Credits to this [ReactJS EU](https://www.youtube.com/watch?v=5QCYBiANRYs) talk
+where I stole most of the slides
+
+Find me at [https://twitter.com/ccasada](https://twitter.com/ccasada) / [https://github.com/cvpcasada](https://github.com/cvpcasada)
+
+Slides and source at
+[https://codesandbox.io/s/react-spring-react-ph-talk-e9d0f](https://codesandbox.io/s/react-spring-react-ph-talk-e9d0f)

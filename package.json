@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "react-spring-react-ph-talk",
+  "version": "2.5.0",
+  "scripts": {
+    "start": "mdx-deck deck.mdx",
+    "build": "yarn now-build",
+    "now-build": "mdx-deck build deck.mdx",
+    "help": "mdx-deck"
+  },
+  "devDependencies": {
+    "mdx-deck": "^2.5.0"
+  },
+  "keywords": [],
+  "description": "Deck created with mdx-deck",
+  "dependencies": {
+    "polished": "3.4.1",
+    "react-spring": "8.0.27",
+    "styled-components": "4.3.2"
+  }
+}
